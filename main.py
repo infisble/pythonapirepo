@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import requests
+import os
 
 app = FastAPI()
 
@@ -9,10 +10,14 @@ class Message(BaseModel):
 
 @app.post("/chat")
 def chat(msg: Message):
+    api_key = os.environ.get("DEEPSEEK_API_KEY")  # читаем из переменных окружения
+    if not api_key:
+        return {"error": "API ключ не найден. Установите переменную окружения DEEPSEEK_API_KEY"}
+
     url = "https://api.intelligence.io.solutions/api/v1/chat/completions"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer io-v2-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6ImI4OTczMjQzLTJiOGUtNGViMi05ZGI2LTQ2ZTAyZGM4Zjg2ZSIsImV4cCI6NDg5Njk3NjE4Nn0.LHeUGbvIvfnrunZup8r4a7Z8DmiP88hNeDZSBmq5oRUmyOnkaHLP4TcyIUIaJ7McM7ad21XEt2SgVfFU8T6zPw",
+        "Authorization": f"Bearer {api_key}",
     }
     data = {
         "model": "deepseek-ai/DeepSeek-R1",
@@ -24,4 +29,3 @@ def chat(msg: Message):
     response = requests.post(url, headers=headers, json=data)
     content = response.json()['choices'][0]['message']['content']
     return {"response": content.split('</think>\n\n')[1]}
-
