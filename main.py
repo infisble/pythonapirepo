@@ -22,7 +22,7 @@ def chat(msg: Message):
     data = {
         "model": "deepseek-ai/DeepSeek-R1",
         "messages": [
-            {"role": "system", "content": "You are a helpful assistant"},
+            {"role": "system", "content": "You are a helpful assistant which can only update text wich are profesional summary wich now i write"},
             {"role": "user", "content": msg.user_input}
         ],
     }
