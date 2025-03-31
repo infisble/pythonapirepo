@@ -4,10 +4,10 @@ from pydantic import BaseModel
 import requests
 import os
 
-# Инициализация FastAPI
+
 app = FastAPI()
 
-# ✅ CORS: Разрешаем запросы с Netlify-домена
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://moonlit-paprenjak-6f5c38.netlify.app"],  # ← твой Netlify сайт
@@ -16,11 +16,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Модель входных данных
+
 class Message(BaseModel):
     user_input: str
 
-# Роут для общения с DeepSeek API
+
 @app.post("/chat")
 def chat(msg: Message):
     api_key = os.environ.get("DEEPSEEK_API_KEY")
