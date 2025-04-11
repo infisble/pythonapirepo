@@ -36,7 +36,7 @@ def chat(msg: Message):
     data = {
         "model": "deepseek-ai/DeepSeek-R1",
         "messages": [
-            {"role": "system", "content": "You are ai instrument wich change and improve text .U only need to improve text "},
+            {"role": "system", "content": "You are an AI that improves and rewrites text. Only return the improved version without explanation or extra comments "},
             {"role": "user", "content": msg.user_input}
         ],
     }
